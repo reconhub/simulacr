@@ -38,6 +38,6 @@ make_R_poisson <- function(mean) {
 #' Make random labels of a given size
 #' @noRd
 
-make_label <- function(size = 6) {
-  function() stringi::stri_rand_strings(n = 1, length = size, pattern = "[A-Za-z0-9]")
+draw_labels <- function(n = 1, size = 6) {
+  stringi::stri_rand_strings(n = n, length = size, pattern = "[A-Za-z0-9]")
 }

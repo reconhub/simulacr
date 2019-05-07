@@ -46,8 +46,7 @@ make_pmf <- function(x, n) {
   
   function(x) {
     x <- as.integer(round(x))
-    out <- double(length(x))
-    
+    out <- double(length(x))  
     p_not_zero <- (x >= 0) & (x <= max(pool))
     out[p_not_zero] <- pmf[x[p_not_zero] + 1]
     out

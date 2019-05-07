@@ -13,10 +13,11 @@ make_index_case <- function(...) {
 
   ## SET DEFAULTS
   defaults <- list(id = NULL,
+                   infector = NA,
                    date_infection = 0,
                    date_onset = NULL,
-                   date_report = NULL
-                   infector = NA)
+                   date_report = NULL,
+                   R = 0)
 
   ## MODIFY OUT WITH ARGUMENTS ##
   out <- modify_defaults(defaults, out)

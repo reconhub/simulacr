@@ -126,7 +126,9 @@ simulate_outbreak <- function(duration = 100, # duration of the simulation
     }
   }
 
-  data.frame(out)
+  out <- data.frame(out)
+  class(out) <- c("outbreak", class(out))
+  out
 }
 
 
