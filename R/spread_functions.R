@@ -9,7 +9,11 @@
 #' @noRd
 #'
 
-make_spread_date_gamma <- function(mean, sd) {
+
+#' Make a discretized gamma distribution
+#' @noRd
+
+make_disc_gamma <- function(mean, sd) {
   params <- epitrix::gamma_mucv2shapescale(mean, sd / mean)
   out <- distcrete::distcrete("gamma",
                               interval = 1,
@@ -21,6 +25,19 @@ make_spread_date_gamma <- function(mean, sd) {
 
 
 
+
+#' Make a Poisson distribution to draw R
+#' @noRd
+
 make_R_poisson <- function(mean) {
   function(n) stats::rpois(n, lambda = mean)
+}
+
+
+
+#' Make random labels of a given size
+#' @noRd
+
+make_label <- function(size = 6) {
+  function() stringi::stri_rand_strings(n = 1, length = size, pattern = "[A-Za-z0-9]")
 }

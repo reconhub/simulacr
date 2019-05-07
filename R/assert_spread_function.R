@@ -3,8 +3,10 @@
 #' Internal. Checks that the input is a function, and takes a single argument.
 #'
 #' @noRd
+#' 
+#' @author Thibaut Jombart
 
-assert_spread_function(x)  <- function(x) {
+assert_spread <- function(x) {
   ## check function type first
   if (!is.function(x)) {
     msg <- sprintf(
@@ -13,7 +15,7 @@ assert_spread_function(x)  <- function(x) {
     stop(msg)
     
   }
-
+  
 
   ## check that it takes a single argument
   arguments <- as.list(args(x))

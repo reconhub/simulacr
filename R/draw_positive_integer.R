@@ -8,6 +8,8 @@
 #'   a probability mass function (pmf) on 0, 1, 2, ..., `(length(x) - 1)`, in which
 #'   case it is used to draw numbers from this pmf.
 #' 
+#' @author Thibaut Jombart
+#' 
 #' @noRd
 
 draw_positive_integer <- function(x, n) {
@@ -53,7 +55,7 @@ draw_positive_integer <- function(x, n) {
   
   if (!is.numeric(x)) {
     msg <- sprintf(
-        "x is neither a function nor a numeric vector (but a `%s`)",
+        "`x` is neither a function nor a numeric vector (but a `%s`)",
         class(x)[1])           
     stop(msg)
   }
