@@ -87,6 +87,7 @@ simulate_outbreak <- function(duration = 100, # duration of the simulation
 
       ## remove susceptibles
       n_susceptibles <- n_susceptibles - n_new_cases
+
       
       ## build new cases: id, different dates, etc.
 
@@ -126,11 +127,12 @@ simulate_outbreak <- function(duration = 100, # duration of the simulation
     }
   }
 
+
+  ## output will be a data.frame with a special type for e.g. printing and
+  ## conversion
+  
   out <- data.frame(out)
   class(out) <- c("outbreak", class(out))
   out
 }
-
-
-
 

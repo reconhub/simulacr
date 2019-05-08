@@ -1,6 +1,8 @@
 #' Basic methods for outbreaks objects
 #'
-#' These functions implement basic methods for outbreaks objects.
+#' These functions implement basic methods for outbreaks objects. They include:
+#' * `as_epicontacts`: conversion to `epicontacts` object
+#' * `as.epicontacts`: alias for `as_epicontacts`
 #'
 #' @rdname outbreak_methods
 #'
@@ -15,8 +17,20 @@ as_epicontacts <- function(...) {
 }
 
 
+
+
+
+#' @rdname outbreak_methods
+#' @export
+
 as.epicontacts <- as_epicontacts
 
+
+
+
+
+#' @rdname outbreak_methods
+#' @export
 
 as_epicontacts.outbreak <- function(x) {
   ## isolate columns for nodes, then edges, then make the epicontact object
@@ -33,7 +47,6 @@ as_epicontacts.outbreak <- function(x) {
                           edges,
                           directed = TRUE
                       )
+  out
 }
-
-
 
