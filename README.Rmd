@@ -73,6 +73,8 @@ null probability)
 * a reporting delay following a Poisson distribution, specified as a function
 
 ```{r distributions}
+library("simulacr")
+
 incubation <- c(0, 1, 1, 1, 1) # numbers = unscaled PMF
 infectious_period <- make_disc_gamma(10, 7) # distcrete object
 reporting <- function(x) dpois(x, 5) # PMF function

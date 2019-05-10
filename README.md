@@ -76,6 +76,8 @@ null probability)
 
 
 ```r
+library("simulacr")
+
 incubation <- c(0, 1, 1, 1, 1) # numbers = unscaled PMF
 infectious_period <- make_disc_gamma(10, 7) # distcrete object
 reporting <- function(x) dpois(x, 5) # PMF function
@@ -152,12 +154,12 @@ plot(x)
 ```
 
 ```
-## Warning in normalizePath(f2): path[1]="webshot1648532db141.png": No such
+## Warning in normalizePath(f2): path[1]="webshot16482dbc5f5e.png": No such
 ## file or directory
 ```
 
 ```
-## Warning in file(con, "rb"): cannot open file 'webshot1648532db141.png': No
+## Warning in file(con, "rb"): cannot open file 'webshot16482dbc5f5e.png': No
 ## such file or directory
 ```
 
