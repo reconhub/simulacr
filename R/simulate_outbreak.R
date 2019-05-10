@@ -47,9 +47,9 @@ simulate_outbreak <- function(duration = 100, # duration of the simulation
   ## make index case
   index_case <- make_index_case(id = draw_labels(1),
                                 date_infection = 0,
-                                date_onset = r_incubation(),
-                                R = r_R())
-  index_case$date_report <- index_case$date_onset + r_reporting()
+                                date_onset = r_incubation(1),
+                                R = r_R(1))
+  index_case$date_report <- index_case$date_onset + r_reporting(1)
 
   n_susceptibles <- population_size - 1
   

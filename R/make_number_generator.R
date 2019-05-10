@@ -36,27 +36,34 @@ make_number_generator <- function(x) {
     }
 
     test_n <- 100
-    test_results <- x(test_values)
+    test_results <- x(test_n)
     if (!is_integer(test_results)) {
-      msg <- "test code `x(100)` produces decimal numbers (should be integers)" 
+      msg <- sprintf(
+          "test code `x(%d)` produces decimal numbers (should be integers)",
+          test_n)
       stop(msg)
     }
     
-    if (length(test_results) != n) {
+    if (length(test_results) != test_n) {
       msg <- sprintf(
-          "test code `x(100)` produces output with wrong length (expected: %d found: %d)",
+          "test code `x(%d)` produces output with wrong length (expected: %d found: %d)",
+          test_n,
           test_n,
           length(test_results))
       stop(msg)
     }
     
     if (any(test_results < 0)) {
-      msg <- "test code `x(100)` produces some negative numbers"
+      msg <- sprintf(
+          "test code `x(%d)` produces some negative numbers",
+          test_n)
       stop(msg)
     }
     
     if (any(!is.finite(test_results))) {
-      msg <- "test code `x(100)` produces some non-finite numbers"
+      msg <- sprintf(
+          "test code `x(%d)` produces some non-finite numbers",
+          test_n)          
       stop(msg)
     }
 
