@@ -3,22 +3,66 @@
 #' Internal function. Used to make a random number generator from a distcrete
 #' object, or a set of numbers taken to be the PMF on `0:(length(x) - 1)`
 #' 
-#' @param x either a `function` generating random numbers, in which case it
-#'   should have a single argument `n`, or a vector of positive numbers taken as
-#'   a probability mass function (pmf) on 0, 1, 2, ..., `(length(x) - 1)`, in which
-#'   case it is used to draw numbers from this pmf.
+#' @param x can be any of three types: i) a `distcrete` object ii) a `function`
+#'   generating random numbers, in which case it should have a single argument
+#'   `n` iii) a vector of positive numbers taken as a probability mass function
+#'   (pmf) on 0, 1, 2, ..., `(length(x) - 1)`, in which case it is used to draw
+#'   numbers from this pmf.
 #' 
 #' @author Thibaut Jombart
 #' 
 #' @noRd
 
-make_number_generator <- function(x, n) {
+make_number_generator <- function(x) {
 
   ## handle `x` input as distcrete object
 
   if (inherits(x, "distcrete")) {
     return(x$r)
   }
+
+
+  ## handle `x` input as function generating random positive integers
+  ## we check that the function has as single argument, and also produces only
+  ## positive, finite integers as output
+  
+  if (is.function(x)) {
+    arguments <- as.list(args(x))
+    arguments <- arguments[!vapply(arguments, is.null, logical(1))] # need to remove the last `NULL`
+
+    if (length(arguments) > 1) {
+      msg <- "if `x` is a function, it should accept a single argument `n`"
+      stop(msg)
+    }
+
+    test_n <- 100
+    test_results <- x(test_values)
+    if (!is_integer(test_results)) {
+      msg <- "test code `x(100)` produces decimal numbers (should be integers)" 
+      stop(msg)
+    }
+    
+    if (length(test_results) != n) {
+      msg <- sprintf(
+          "test code `x(100)` produces output with wrong length (expected: %d found: %d)",
+          test_n,
+          length(test_results))
+      stop(msg)
+    }
+    
+    if (any(test_results < 0)) {
+      msg <- "test code `x(100)` produces some negative numbers"
+      stop(msg)
+    }
+    
+    if (any(!is.finite(test_results))) {
+      msg <- "test code `x(100)` produces some non-finite numbers"
+      stop(msg)
+    }
+
+    return(x)
+  }
+
   
 
   ## handle `x` input as a pmf

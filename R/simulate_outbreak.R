@@ -22,7 +22,7 @@
 #' @param dist_R the distribution of the reproduction number, i.e. the expected
 #'   number of secondary cases per primary case
 #'
-#' @author Thibaut Jombart
+#' @author Thibaut Jombart \email{thibautjombart@@gmail.com}
 
 
 simulate_outbreak <- function(duration = 100, # duration of the simulation
