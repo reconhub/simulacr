@@ -11,6 +11,8 @@
 #'
 #' @export
 #'
+#' @param x an object to be converted to `epicontacts`
+#'
 
 as_epicontacts <- function(...) {
   UseMethod("as_epicontacts")
@@ -32,7 +34,7 @@ as.epicontacts <- as_epicontacts
 #' @rdname outbreak_methods
 #' @export
 
-as_epicontacts.outbreak <- function(x) {
+as_epicontacts.outbreak <- function(x, ...) {
   ## isolate columns for nodes, then edges, then make the epicontact object
   ## using the constructor; as some columns may be optional depending on
   ## simulations input (e.g. date_report) we make sure to retain only columns
@@ -62,6 +64,7 @@ as_epicontacts.outbreak <- function(x) {
 
 #' @rdname outbreak_methods
 #' @export
+#' @importFrom graphics plot
 #' @param ... for `plot`, arguments passed to `plot.epicontacts` in the
 #'   `epicontacts` package.
 

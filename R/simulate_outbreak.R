@@ -27,6 +27,8 @@
 #'   i.e. the time interval between symptom onset and the date at which the case
 #'   is notified; if `NULL` (default) reporting dates will not be simulated
 #'
+#' @export
+#' 
 #' @author Thibaut Jombart \email{thibautjombart@@gmail.com}
 #'
 #' @examples

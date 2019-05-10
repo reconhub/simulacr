@@ -4,6 +4,8 @@
 #' *distcrete* allowing to create a discretised Gamma distribution with given
 #' mean and standard deviration, returning a `distcrete` object.
 #'
+#' @export
+#' 
 #' @param mean the mean of the distribution
 #'
 #' @param sd the standard deviation of the distribution
