@@ -13,7 +13,7 @@
 #'
 
 as_epicontacts <- function(...) {
-  UseMethod("as_methods")
+  UseMethod("as_epicontacts")
 }
 
 
@@ -40,7 +40,7 @@ as_epicontacts.outbreak <- function(x) {
   nodes <- x[to_keep]
 
   to_keep <- c("infector", "id")
-  edges <- data.frame(to_keep)
+  edges <- x[to_keep]
 
   out <- epicontacts::make_epicontacts(
                           nodes,
