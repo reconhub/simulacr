@@ -1,7 +1,8 @@
 #' Turn a distribution into a random number generator
 #'
 #' Internal function. Used to make a random number generator from a distcrete
-#' object, or a set of numbers taken to be the PMF on `0:(length(x) - 1)`
+#' object, a function, or a set of numbers taken to be the PMF on
+#' `0:(length(x) - 1)`
 #' 
 #' @param x can be any of three types: i) a `distcrete` object ii) a `function`
 #'   generating random numbers, in which case it should have a single argument

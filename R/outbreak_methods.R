@@ -34,9 +34,13 @@ as.epicontacts <- as_epicontacts
 
 as_epicontacts.outbreak <- function(x) {
   ## isolate columns for nodes, then edges, then make the epicontact object
-  ## using the constructor
+  ## using the constructor; as some columns may be optional depending on
+  ## simulations input (e.g. date_report) we make sure to retain only columns
+  ## present in 'x' (e.g. using `intersect`)
   
-  to_keep  <- c("id", "date_infection", "date_onset", "date_report")
+  to_keep <- intersect(
+      c("id", "date_infection", "date_onset", "date_report"),
+      names(x))
   nodes <- x[to_keep]
 
   to_keep <- c("infector", "id")

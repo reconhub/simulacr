@@ -1,6 +1,6 @@
 #' Function to simulate a first case
 #'
-#' @nrRd
+#' @noRd
 #' 
 
 make_index_case <- function(...) {
