@@ -50,3 +50,17 @@ as_epicontacts.outbreak <- function(x) {
   out
 }
 
+
+
+
+
+
+
+#' @rdname outbreak_methods
+#' @export
+#' @param ... for `plot`, arguments passed to `plot.epicontacts` in the
+#'   `epicontacts` package.
+
+plot.outbreak <- function(x, ...) {
+  plot(as.epicontacts(x), ...)
+}
