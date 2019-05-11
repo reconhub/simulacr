@@ -19,5 +19,3 @@ URL: https://github.com/reconhub/simulacr
 BugReports: https://github.com/reconhub/simulacr/issues
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-
- 
