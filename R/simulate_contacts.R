@@ -6,12 +6,20 @@
 #' contacts, identifying entries in the linelist as cases or contacts, and links
 #' as exposures or transmissions.
 #'
-#' @param n_contacts a vector of values to be used as reproduction number; values
-#'   will be drawn at random from this vector to determine the expected numbero
-#'   of secondary cases for each new case
+#' @param x an `outbreak` object as returned by `simulate_outbreak`
 #'
-#' @param dist_duration the distribution of the incubation period, i.e. the
-#'   time interval between infection and onset of symtpoms
+#' @param n_contacts a vector of values to be used as average number of
+#'   contacts; values will be drawn at random from this vector to determine the
+#'   expected number of contacts for each new case
+#'
+#' @param dist_time_to_contact the distribution of the delay to new exposures,
+#'   in days after the onset of symptoms
+#'
+#' @param dist_duration the distribution of duration of the exposure period
+#'   after the first day, i.e. the time interval between the start and the end
+#'   of the exposure window
+#'
+#' @seealso `simulate_outbreak`
 #'
 #' @export
 #' 
@@ -26,11 +34,29 @@
 #' reporting <- function(x) dpois(x, 5) # PMF function
 #' set.seed(1)
 #' x <- simulate_outbreak(R = runif(100, 1, 3), # random values on [1;3]
-#'                        dist_duration= incubation,
+#'                        dist_incubation= incubation,
 #'                        dist_infectious_period = infectious_period,
 #'                        dist_reporting = reporting)
 #'
-#' ## simulate contacts (2 to 5 per case)
+#' ## simulate contacts: inputs
+#'
+#' ## exposure starts 0-2 days post onset
+#' time_to_contact = c(1, 1, 1)
+#' 
+#' ## geom dist for duration of exposure
+#' duration <- function(x) dgeom(x, prob = .9)
+#' 
+#' x_with_contacts <- simulate_contacts(
+#'     x[1:10, ],
+#'     n_contacts = 1:10, # 1 to 10 contacts
+#'     dist_time_to_contact = time_to_contact,
+#'     dist_duration = duration)
+#'
+#' ## check output
+#' class(x_with_contacts)
+#' dim(x_with_contacts)
+#' head(x_with_contacts)
+#' plot(x_with_contacts)
 #' 
 
 simulate_contacts <- function(x,
@@ -116,6 +142,11 @@ simulate_contacts <- function(x,
   x$date_exposure_end <- x$date_infection + r_duration(n_cases)
 
   out <- suppressMessages(dplyr::full_join(x, contacts))
+
+  new_order <- order(out$date_exposure_start)
+  out <- out[new_order, ]
+  
+  class(out) <- class(x)
   attr(out, "has_contacts") <- TRUE
   out
 }

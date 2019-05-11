@@ -5,7 +5,6 @@
 
 make_index_case <- function(...) {
 
-
   out <- list(...)
   if (length(out) == 1L && is.list(out[[1]])) {
     out <- out[[1]]
@@ -13,7 +12,7 @@ make_index_case <- function(...) {
 
   ## SET DEFAULTS
   defaults <- list(id = NULL,
-                   infector = NA,
+                   source = NA,
                    date_infection = 0,
                    date_onset = NULL,
                    date_report = NULL,
