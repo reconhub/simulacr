@@ -173,7 +173,7 @@ simulate_outbreak <- function(duration = 100, # duration of the simulation
   if (!simulate_reporting) {
     out$date_report <- NULL
   }
-  out <- data.frame(out)
+  out <- data.frame(out, stringsAsFactors = FALSE)
   class(out) <- c("outbreak", class(out))
   out
 }
