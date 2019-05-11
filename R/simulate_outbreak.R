@@ -135,8 +135,8 @@ simulate_outbreak <- function(duration = 100, # duration of the simulation
                               size = n_new_cases,
                               replace = TRUE,
                               prob = individual_infectiousness)
-      out$infector <- c(out$infector,
-                        new_infectors)
+      out$source <- c(out$source,
+                      new_infectors)
 
       ## id
       out$id <- c(out$id,
@@ -175,6 +175,7 @@ simulate_outbreak <- function(duration = 100, # duration of the simulation
   }
   out <- data.frame(out, stringsAsFactors = FALSE)
   class(out) <- c("outbreak", class(out))
+  attr(out, "has_contacts") <- FALSE
   out
 }
 

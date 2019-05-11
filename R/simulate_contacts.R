@@ -2,7 +2,7 @@
 #'
 #' Under development. Do not use. This simulator adds contacts to the cases of
 #' an `outbreak` object, using user-defined distributions for numbers and
-#' duration of contacts. It returns an `epicontacts` object with cases and
+#' duration of contacts. It returns an `outbreaks` object with cases and
 #' contacts, identifying entries in the linelist as cases or contacts, and links
 #' as exposures or transmissions.
 #'
@@ -19,7 +19,8 @@
 #'
 #' @examples
 #' 
-#' ## make toy distributions (showing the 3 possible input types)
+#' ## first simulate an outbreak
+#' ## (see example in ?simulate_outbreak)
 #' incubation <- c(0, 1, 1, 1, 1) # numbers = unscaled PMF
 #' infectious_period <- make_disc_gamma(10, 7) # distcrete object
 #' reporting <- function(x) dpois(x, 5) # PMF function
@@ -28,12 +29,9 @@
 #'                        dist_duration= incubation,
 #'                        dist_infectious_period = infectious_period,
 #'                        dist_reporting = reporting)
-#' dim(x)
-#' head(x)
-#' tail(x)
-#' if (require(epicontacts)) {
-#'   plot(x)
-#' }
+#'
+#' ## simulate contacts (2 to 5 per case)
+#' 
 
 simulate_contacts <- function(x,
                               n_contacts, # average number of contacts
@@ -72,7 +70,6 @@ simulate_contacts <- function(x,
   r_time_to_contact <- make_number_generator(pmf_time_to_contact(x_values))
   r_duration <- make_number_generator(pmf_duration(x_values))
 
-  browser()
   
   ## random number generator for n_contacts
   assert_n_contacts(n_contacts)
@@ -89,33 +86,37 @@ simulate_contacts <- function(x,
     current_onset <- x$date_onset[i]
     current_n_contacts <- all_n_contacts[i]
     current_contacts <- data.frame(
-        id = draw_labels(case_n_contacts),
-        infector = rep(current_id, current_n_contacts),
+        id = draw_labels(current_n_contacts),
+        source = rep(current_id, current_n_contacts),
         date_exposure_start = x$date_onset[i] +
           r_time_to_contact(current_n_contacts)
     )
     current_contacts$date_exposure_end <-  current_contacts$date_exposure_start +
       r_duration(current_n_contacts)
-    contacts[[current_id]] <- current_contacts
+    contacts[[i]] <- current_contacts
   }
   
 
   ## pull all contacts together
   contacts <- do.call(rbind.data.frame, contacts)
+  contacts$id <- as.character(contacts$id)
+  contacts$source <- as.character(contacts$source)
 
+
+  ## merge original case data with contacts; this involves adding exposure dates
+  ## for cases, and keeping track of what is a case, or a contact
+  ## 
+  ## TODO: for now the start of the exposure is always the date of infection; we
+  ## need to be able to change this whilst respecting the constraints on the
+  ## date of infection and duration of exposure period
   
-  ## add info to a new tree
-  ids_cases <- unique(as.character(all_contacts$from))
-  ids_contacts <- unique(as.character(all_contacts$to))
-  ids <- c(ids_cases, ids_contacts)
-  type <- rep(c("case", "contact"),
-              c(length(ids_cases), length(ids_contacts)))
-  nodes <- data.frame(id = ids, type = type)
-  edges <- rbind(x$contacts, all_contacts)
+  contacts$type <- "non_case"
+  x$type <- "case"
+  x$date_exposure_start <- x$date_infection
+  x$date_exposure_end <- x$date_infection + r_duration(n_cases)
 
-  make_epicontacts(nodes, edges, directed = TRUE)
-
-
-  
+  out <- suppressMessages(dplyr::full_join(x, contacts))
+  attr(out, "has_contacts") <- TRUE
+  out
 }
 

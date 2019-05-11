@@ -45,7 +45,7 @@ as_epicontacts.outbreak <- function(x, ...) {
       names(x))
   nodes <- x[to_keep]
 
-  to_keep <- c("infector", "id")
+  to_keep <- c("source", "id")
   edges <- x[to_keep]
 
   out <- epicontacts::make_epicontacts(
