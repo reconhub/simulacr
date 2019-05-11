@@ -38,7 +38,7 @@ make_number_generator <- function(x) {
 
     test_n <- 100
     test_results <- x(test_n)
-    if (!is_integer(test_results)) {
+    if (!all(is_integer(test_results))) {
       msg <- sprintf(
           "test code `x(%d)` produces decimal numbers (should be integers)",
           test_n)
