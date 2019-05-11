@@ -56,6 +56,7 @@
 #' class(x_with_contacts)
 #' dim(x_with_contacts)
 #' head(x_with_contacts)
+#' 
 #' plot(x_with_contacts)
 #' 
 

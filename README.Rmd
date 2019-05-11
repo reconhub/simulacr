@@ -1,6 +1,3 @@
----
-output: github_document
----
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/simulacr)](https://cran.r-project.org/package=simulacr)
 
@@ -48,7 +45,7 @@ features of the package include:
 
 
 
-# Example
+# Worked example
 
 This brief example illustrates how we can simulate an outbreak, with different
 ways of specifying input distributions.
@@ -81,7 +78,7 @@ reporting <- function(x) dpois(x, 5) # PMF function
 
 ```
 
-## Running simulations
+## Simulating an outbreak
 
 ```{r simulations}
 set.seed(1)
@@ -122,6 +119,41 @@ net
 ```
 
 
+
+
+## Simulating contacts
+
+Contacts can be simulated and added to a simulated outbreak, using similar
+procedures to the one used in `simulate_outbreak`, with a few differences:
+
+* `n_contacts`: the numbers of contacts per index case is specified in the same
+  way as the reproduction number `R` in `simulate_outbreaks`
+  
+* the two distributions relate to the time between onset of the index case and
+  the beginning of secondar exposures (`dist_time_to_contact`) and the duration
+  of the exposure window (`duration`) after the first day of contact
+
+```{r sim_contacts}
+## exposure starts 0-2 days post onset
+time_to_contact = c(1, 1, 1)
+
+## geom dist for duration of exposure
+duration <- function(x) dgeom(x, prob = .9)
+
+x_with_contacts <- simulate_contacts(
+    x[1:10, ],
+    n_contacts = 1:10, # 1 to 10 contacts
+    dist_time_to_contact = time_to_contact,
+    dist_duration = duration)
+
+## check output
+class(x_with_contacts)
+dim(x_with_contacts)
+head(x_with_contacts)
+
+plot(x_with_contacts)
+
+```
 
 
 

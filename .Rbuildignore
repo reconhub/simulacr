@@ -9,6 +9,6 @@
 ^codecov\.yml$
 ^cran-comments\.md$
 ^docs/
-
+^figure/
 ^LICENSE\.md$
 ^CODE_OF_CONDUCT\.md$
