@@ -118,13 +118,13 @@ simulate_outbreak <- function(duration = 100, # duration of the simulation
   out <- index_case
 
   for (t in seq_len(duration)) {
-
-    ## TODO: DESCRIPTION TO BE REVISED!
     
     ## Individual infectiousness at time 't' is defined as the infectious period
     ## pmf multiplied by the individual R; the global force of infection is a
-    ## rate defined as the sum of individual infectiousnesses. This rate is used
-    ## to draw the number of secondary cases from a Poisson distribution
+    ## rate defined as the sum of individual infectiousnesses. This rate is
+    ## weighted by the proportion of susceptible individuals in the population
+    ## to introduce density-dependence, the result being used to draw the number
+    ## of secondary cases from a Poisson distribution
     
     if (n_susceptibles > 0) {
       individual_infectiousness <- pmf_infectious_period(t - out$date_onset) * out$R
