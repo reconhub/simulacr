@@ -1,11 +1,17 @@
-#' Simulate outbreaks
+#' Simulate outbreaks with transmission trees
 #'
-#' Under development. Do not use. This simulator uses a branching process to
-#' determine the infectiousness of individuals over time. It determines the
-#' dates of events based on user-provided distributions. Distributions can be
-#' provided either as `distcrete` objects, as functions computing the
-#' probability mass functions (PMF), or as vectors of numbers taken as the PMF
-#' for values on 0, 1, ..., `length(input) - 1`
+#' This function implements an individual-based outbreak simulator which
+#' generates transmission trees. A Poisson branching process is used to generate
+#' new cases in time, using the distribution of the reproduction number (R) and
+#' of the duration of the infectious period to determine rates of infection. A
+#' density-dependence term is used so that individual infectiousness decreases
+#' with the proportion of susceptible individuals in the population (see
+#' details). For each simulated case, the simulator generates an individual
+#' reproduction number, date of infection, symptom onset, and reporting using
+#' user-specified distributions. Distributions can be provided either as
+#' `distcrete` objects, as functions computing the probability mass functions
+#' (PMF), or as vectors of numbers taken as the PMF for values on 0, 1, ...,
+#' `length(input) - 1`
 #'
 #' @param duration the number of days to run the simulation for
 #'
@@ -27,6 +33,17 @@
 #'   i.e. the time interval between symptom onset and the date at which the case
 #'   is notified; if `NULL` (default) reporting dates will not be simulated
 #'
+#' @details
+#' Individual infectiousness is determined as \eqn{R x w(t - t_{onset})} where
+#' \eqn{R} is the individual reproduction number, \eqn{w} is the PMF of the
+#' duration of the infectious period, \eqn{t} is current time, and
+#' \eqn{t_{onset}} is the date of symptom onset for the considered individual.
+#' The number of new cases at time *t* is then taken from a Poisson distribution
+#' with a rate of infection \eqn{\lambda_t n_s / n} where \eqn{lambda_t} is the
+#' sum of all individual infectiousness at time *t*, \eqn{n_s} is the number of
+#' susceptible individuals in the population, and *n* is the total population
+#' size.
+#' 
 #' @export
 #' 
 #' @author Thibaut Jombart \email{thibautjombart@@gmail.com}
